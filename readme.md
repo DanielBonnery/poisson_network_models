@@ -12,17 +12,7 @@ Get data
 -------------
 
 
-```python
-def get_flowers():
-	import pandas as pd
-	'flowers_txt_url = 'http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/text/mc_mullen.txt'
-	'flowers_xls_url = 'http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/excel/mcmullen_1993.xls'
-
-
-	df1 = pd.read_excel(flowers_xls_url)
-	df2 = pd.read_table(flowers_txt_url,  header=0)
-	
-	return df1,df2
-```
-
+ [http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/text/mc_mullen.txt](http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/text/mc_mullen.txt)
+[http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/excel/mcmullen_1993.xls]('http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/excel/mcmullen_1993.xls)
+[https://projecteuclid.org/journals/supplementalcontent/10.1214/10-AOAS361/supzip_1.zip]('https://projecteuclid.org/journals/supplementalcontent/10.1214/10-AOAS361/supzip_1.zip)
 
