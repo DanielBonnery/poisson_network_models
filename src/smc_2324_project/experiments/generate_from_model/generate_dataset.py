@@ -57,7 +57,7 @@ def generate_covariates():
     return X
 
 
-def sample_from_network(theta, X):
+def sample_from_network(theta, X, return_Z=False):
     """
     Samples from the network model with parameters theta and covariates X.
     Returns the counts matrix Y (shape (n,n)).
@@ -81,4 +81,8 @@ def sample_from_network(theta, X):
                         lambda_ij = np.exp(X[i, j].dot(beta) + alpha[another_k, l])
                         Y[i, j] = np.random.poisson(lambda_ij)
     Y = Y + Y.T
-    return Y
+
+    if return_Z:
+        return Y, Z
+    else:
+        return Y
