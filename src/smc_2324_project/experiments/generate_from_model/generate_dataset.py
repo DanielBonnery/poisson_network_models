@@ -67,9 +67,9 @@ def sample_from_network(theta, X, return_Z=False):
 
     # sample Z
     Z = np.zeros((n, k))
-    for i in range(n):
-        Z_i = np.random.multinomial(1, nu)
-        Z[i] = Z_i
+    Z_idx = np.random.choice(k, size=n, p=nu)
+    Z[range(n), Z_idx] = 1.0
+    assert np.all(Z.sum(axis=1) == 1)
 
     # sample Y
     Y = np.zeros((n, n))
@@ -80,9 +80,12 @@ def sample_from_network(theta, X, return_Z=False):
                     if (Z[i][another_k] == 1) and (Z[j][l] == 1):
                         lambda_ij = np.exp(X[i, j].dot(beta) + alpha[another_k, l])
                         Y[i, j] = np.random.poisson(lambda_ij)
+                        break
+                break
+
     Y = Y + Y.T
 
     if return_Z:
-        return Y, Z
+        return Z, Y
     else:
         return Y
