@@ -6,9 +6,14 @@ import numpy as np
 
 
 def main():
+    # hyperparameters
+    n, k, p = 40, 2, 4
+    gamma_0 = np.array([1, 0, 3, 1.1, 2.2, 0.1, -0.3])
+    V_0 = np.eye(7) * 0.1
+    e_0 = 3 * np.ones(2)
     # network
-    theta = generate_network_params()
-    covariates = generate_covariates()
+    theta = generate_network_params(k, gamma_0, V_0, e_0)
+    covariates = generate_covariates(n, p)
     # sample from network
     adj = sample_from_network(theta, covariates)
     n = adj.shape[0]

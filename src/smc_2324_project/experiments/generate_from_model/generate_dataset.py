@@ -81,6 +81,6 @@ def sample_from_network(theta, X, return_Z=False):
     Y = Y + Y.T
 
     if return_Z:
-        return Z, Y
+        return Y, Z
     else:
         return Y
