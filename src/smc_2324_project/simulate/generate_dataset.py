@@ -28,15 +28,26 @@ def generate_network_params(k, gamma_0, V_0, e_0):
     return alpha, beta, nu
 
 
-def gamma_to_alpha_beta(k, gamma):
+def gamma_to_alpha_beta(K, gamma):
     """
     Converts the flattened gamma to alpha and beta
     """
-    alpha = np.zeros((k, k))
-    alpha[np.triu_indices(k)] = gamma[:k + 1]
+    alpha = np.zeros((K, K))
+    alpha[np.triu_indices(K)] = gamma[:K + 1]
     alpha = alpha + alpha.T - np.diag(np.diag(alpha))
-    beta = gamma[k + 1:]
+    beta = gamma[K + 1:]
     return alpha, beta
+
+
+def alpha_beta_to_gamma(alpha, beta):
+    """
+    Converts alpha and beta to the flattened gamma
+    """
+    K = alpha.shape[0]
+    gamma = np.zeros(K * (K + 1) // 2 + beta.shape[0])
+    gamma[:K + 1] = alpha[np.triu_indices(K)]
+    gamma[K + 1:] = beta
+    return gamma
 
 
 def generate_covariates(n, p):

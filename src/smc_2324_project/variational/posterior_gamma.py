@@ -1,17 +1,19 @@
 import numpy as np
+from src.smc_2324_project.simulate.generate_dataset import gamma_to_alpha_beta
 
 
 def from_flat_indice_to_triu_indices(i, size):
     return i // size, i // size + (i % size)
 
 
-def hessian(adj, covariates, tau, theta):
+def hessian(adj, covariates, tau, gamma):
     """
     Compute the Hessian H_J^{\gamma} used in Eq. 9.
     """
-    alpha, beta, _ = theta
+
     n = adj.shape[0]
-    K = alpha.shape[0]
+    K = tau.shape[1]
+    alpha, beta = gamma_to_alpha_beta(K, gamma)
     n_K = int(K * (K + 1) / 2)
     d = covariates.shape[-1]  # or p according to Paul's notations
     hess = np.zeros((n_K + d, n_K + d))
@@ -41,11 +43,11 @@ def hessian(adj, covariates, tau, theta):
     return hess
 
 
-def sample_from_gamma(hess, gamma0, V0, inferred_gamma):
+def sample_from_gamma(hess, gamma0, V0, inferred_gamma, size=1):
     """
     Samples from the Gaussian posterior of gamma.
     """
     invV0 = np.linalg.inv(V0)
     cov = np.linalg.inv((invV0 - hess))
     mean = cov @ (invV0 @ gamma0 - hess @ inferred_gamma)
-    return np.random.multivariate_normal(mean, cov)
+    return np.random.multivariate_normal(mean, cov, size=size)
