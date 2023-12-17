@@ -19,8 +19,9 @@ setuptools.setup(
     install_requires=[
         "numpy",
         "scipy",
-        "urllib"
-        "pandas"
+        "urllib",
+        "pandas",
+        "sklearn",
     ],
     long_description_content_type="text/markdown",
     keywords="SMC poisson network regression VAE bayesian variational inference ",

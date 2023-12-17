@@ -25,7 +25,7 @@ def main():
         nu)
     print(f'true_theta: {theta}')
     print(f'fake_theta: {fake_theta}')
-    inferred_theta = VEM(adj, covariates, fake_theta, tau)
+    inferred_theta = VEM(adj, covariates, theta, tau)
     return inferred_theta
 
 
