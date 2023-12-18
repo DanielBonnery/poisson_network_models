@@ -1,7 +1,12 @@
 import numpy as np
 
+n, k, p = 40, 2, 4
+gamma_0 = np.array([1, 0, 3, 1.1, 2.2, 0.1, -0.3])
+V_0 = np.eye(7)
+e_0 = 3 * np.ones(2)
 
-def generate_network_params(k, gamma_0, V_0, e_0):
+
+def generate_network_params(k=k, gamma_0=gamma_0, V_0=V_0, e_0=e_0):
     """
     Generates the parameters alpha, beta and nu of a network model.
 
@@ -39,7 +44,7 @@ def gamma_to_alpha_beta(k, gamma):
     return alpha, beta
 
 
-def generate_covariates(n, p):
+def generate_covariates(n=n, p=p):
     """
     Generates the covariates X.
     Fixed hyperparameters:
@@ -57,9 +62,11 @@ def sample_from_network(theta, X, return_Z=False):
     Returns the counts matrix Y (shape (n,n)).
     theta = (alpha, beta, nu), alpha and beta being in their matrix form.
     """
+    # parameters
     alpha, beta, nu = theta
     n = X.shape[0]
     k = alpha.shape[0]
+
     # sample Z
     Z = np.zeros((n, k))
     Z_idx = np.random.choice(k, size=n, p=nu)
@@ -80,6 +87,7 @@ def sample_from_network(theta, X, return_Z=False):
 
     Y = Y + Y.T
 
+    assert not np.any(np.isnan(Y))
     if return_Z:
         return Z, Y
     else:
