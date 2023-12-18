@@ -32,14 +32,19 @@ def loss(adj, covariates, tau, gamma):
     K = tau.shape[1]
     alpha, beta = gamma_to_alpha_beta(K, gamma)
     n = adj.shape[0]
-    s = 0
+    ind_i_lower_than_j = np.tri(n, n, -1).T
+    s = np.einsum('ij,ik,jl,kl,ij->', ind_i_lower_than_j, tau, tau, alpha, adj)
+    s += np.einsum('ij,ik,jl,ij,ij->', ind_i_lower_than_j, tau, tau, covariates @ beta, adj)
+    s -= np.einsum('ij,ik,jl,kl,ij->', ind_i_lower_than_j, tau, tau, np.exp(alpha), np.exp(covariates @ beta))
+    """s2 = 0
     for i in range(n):
-        for j in range(i + 1, n):
+        for j in range(n):
             for k in range(K):
                 for l in range(K):
-                    s += tau[i, k] * tau[j, l] * (
+                    s2 += ind_i_lower_than_j[i, j] * (tau[i, k] * tau[j, l] * (
                             (alpha[k, l] + covariates[i, j].T @ beta) * adj[i, j] - np.exp(
-                        alpha[k, l] + covariates[i, j].T @ beta))
+                        alpha[k, l] + covariates[i, j].T @ beta)))
+    assert s2 == s"""
     return -s
 
 
