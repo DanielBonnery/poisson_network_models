@@ -12,7 +12,7 @@ except Exception as e:
 setuptools.setup(
     name="independent_component_analysis",
     author="Daniel Bonnery, Augustin Poissonnier, Paul Guillermit, Yvann Le Fay",
-    description="Accelerating Bayesian Estimation for Network Poisson Models Using Frequentist Variational Estimates ",
+    description="Accelerating Bayesian Estimation for Network Poisson Models Using Frequentist Variational Estimates.",
     long_description=long_description,
     version="0.1",
     packages=setuptools.find_packages(),

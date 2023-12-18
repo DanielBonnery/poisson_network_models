@@ -7,12 +7,15 @@ import numpy as np
 
 
 def main():
-    np.random.seed(0)
+    np.random.seed(10)
     # hyperparameters
-    n, K, p = 40, 2, 4
-    gamma_0 = np.array([1, 0, 3, 1.1, 2.2, 0.1, -0.3])
-    V_0 = np.eye(7) * 0.1
-    e_0 = 3 * np.ones(2)
+    n, K, p = 40, 3, 4
+    gamma_0 = np.array([1, 0, 3, 1.1, 1.5, 0.2, -0.1, 2.2, 0.1, -0.3])
+    assert gamma_0.shape[0] == (K * (K + 1)) // 2 + p
+    V_0 = np.eye(10) * 0.1
+    assert V_0.shape[0] == p + (K * (K + 1)) // 2
+    e_0 = 3 * np.ones(3)
+    assert e_0.shape[0] == K
     # network
     theta = generate_network_params(K, gamma_0, V_0, e_0)
     covariates = generate_covariates(n, p)

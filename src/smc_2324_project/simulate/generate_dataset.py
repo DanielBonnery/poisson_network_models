@@ -38,9 +38,9 @@ def gamma_to_alpha_beta(K, gamma):
     Converts the flattened gamma to alpha and beta
     """
     alpha = np.zeros((K, K))
-    alpha[np.triu_indices(K)] = gamma[: K + 1]
+    alpha[np.triu_indices(K)] = gamma[: K * (K + 1) // 2]
     alpha = alpha + alpha.T - np.diag(np.diag(alpha))
-    beta = gamma[K + 1 :]
+    beta = gamma[K * (K + 1) // 2:]
     return alpha, beta
 
 
@@ -49,9 +49,10 @@ def alpha_beta_to_gamma(alpha, beta):
     Converts alpha and beta to the flattened gamma
     """
     k = alpha.shape[0]
-    gamma = np.zeros(k * (k + 1) // 2 + beta.shape[0])
+    p = beta.shape[0]
+    gamma = np.zeros(k * (k + 1) // 2 + p)
     gamma[: k * (k + 1) // 2] = alpha[np.triu_indices(k)]
-    gamma[k * (k + 1) // 2 :] = beta
+    gamma[k * (k + 1) // 2:] = beta
     return gamma
 
 
