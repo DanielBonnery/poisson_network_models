@@ -9,8 +9,6 @@ def from_flat_indice_to_triu_indices(k, size):
     """
     assert k < size * (size + 1) / 2
     i = int(0.5 + size - np.sqrt(- 2 * k + (0.5 + size) ** 2))
-    if i == 0:
-        return i, k
     j = 0.5 * (i + i ** 2 + 2 * k - 2 * i * size)
     return int(i), int(j)
 
