@@ -3,6 +3,10 @@ from src.smc_2324_project.simulate.generate_dataset import gamma_to_alpha_beta
 
 
 def from_flat_indice_to_triu_indices(i, size):
+    """
+    Convert a flat indice to the indices of the upper triangular matrix.
+    Needed to map the Hessian indices to gamma indices.
+    """
     return i // size, i // size + (i % size)
 
 

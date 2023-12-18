@@ -7,6 +7,7 @@ import numpy as np
 
 
 def main():
+    np.random.seed(0)
     # hyperparameters
     n, K, p = 40, 2, 4
     gamma_0 = np.array([1, 0, 3, 1.1, 2.2, 0.1, -0.3])

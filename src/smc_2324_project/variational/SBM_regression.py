@@ -8,6 +8,9 @@ author: Yvann Le Fay
 
 
 def minimize_matrix_input(f, init_matrix, method='Nelder-Mead', options={'maxiter': 10}):
+    """
+    Wrapping scipy.optimize.minimize to handle matrix inputs.
+    """
     shape = init_matrix.shape
 
     def _f(flattened_matrix):
@@ -19,12 +22,12 @@ def minimize_matrix_input(f, init_matrix, method='Nelder-Mead', options={'maxite
 
 
 def log_poisson_density(k, logparam):
-    return - np.exp(logparam) + k * logparam - np.sum(np.log(np.arange(2, k + 1)))
+    return - np.exp(logparam) + k * logparam
 
 
 def loss(adj, covariates, tau, gamma):
     """
-    Negative log-likelihood of the Poisson model.
+    Negative log-likelihood of the Poisson model (up to a constant depending on tau, covariates and adj variables).
     """
     K = tau.shape[1]
     alpha, beta = gamma_to_alpha_beta(K, gamma)
@@ -66,9 +69,7 @@ def VE_step(adj, covariates, gamma, nu, tau):
 
 def M_step(adj, covariates, gamma, tau):
     """
-    M
-    step as described in the
-    paper.
+    Minimize the negative log-likelihood with respect to gamma.
     """
     f_gamma = lambda _gamma: loss(adj, covariates, tau, _gamma)
     gamma, _ = minimize_matrix_input(f_gamma, gamma)
