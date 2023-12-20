@@ -7,7 +7,7 @@ author: Yvann Le Fay
 """
 
 
-def minimize_matrix_input(f, init_matrix, method='Nelder-Mead', options={'maxiter': 10}):
+def minimize_matrix_input(f, init_matrix, method='Nelder-Mead', options={'maxiter': 100}):
     """
     Wrapping scipy.optimize.minimize to handle matrix inputs.
     """
@@ -36,15 +36,6 @@ def loss(adj, covariates, tau, gamma):
     s = np.einsum('ij,ik,jl,kl,ij->', ind_i_lower_than_j, tau, tau, alpha, adj)
     s += np.einsum('ij,ik,jl,ij,ij->', ind_i_lower_than_j, tau, tau, covariates @ beta, adj)
     s -= np.einsum('ij,ik,jl,kl,ij->', ind_i_lower_than_j, tau, tau, np.exp(alpha), np.exp(covariates @ beta))
-    """s2 = 0
-    for i in range(n):
-        for j in range(n):
-            for k in range(K):
-                for l in range(K):
-                    s2 += ind_i_lower_than_j[i, j] * (tau[i, k] * tau[j, l] * (
-                            (alpha[k, l] + covariates[i, j].T @ beta) * adj[i, j] - np.exp(
-                        alpha[k, l] + covariates[i, j].T @ beta)))
-    assert s2 == s"""
     return -s
 
 
@@ -86,7 +77,8 @@ def VEM(adj, covariates, gamma, nu, tau, criterion=None):
     Combining previous functions.
     """
     if criterion is None:
-        criterion = lambda gamma, init_gamma, n_iter: n_iter < 10 and (np.linalg.norm(gamma - init_gamma) > 1e-2)
+        criterion = lambda gamma, init_gamma, n_iter: n_iter < 10000 and (
+                np.linalg.norm(gamma - init_gamma) / np.linalg.norm(init_gamma) > 1e-2)
     n_iter = 0
     init_tau = tau
     init_gamma = gamma
@@ -96,5 +88,6 @@ def VEM(adj, covariates, gamma, nu, tau, criterion=None):
         n_iter += 1
         nu, tau = VE_step(adj, covariates, init_gamma, init_nu, init_tau)
         gamma = M_step(adj, covariates, init_gamma, init_tau)
+    print(f'number of iterations: {n_iter}')
     print(f'terminal gamma, nu: {gamma, nu}')
     return gamma, nu, tau
