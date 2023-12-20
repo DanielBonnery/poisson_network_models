@@ -1,12 +1,12 @@
 import numpy as np
 
-n, k, p = 40, 2, 4
-gamma_0 = np.array([1, 0, 3, 1.1, 2.2, 0.1, -0.3])
-V_0 = np.eye(7)
-e_0 = 3 * np.ones(2)
+# n, k, p = 40, 2, 4
+# gamma_0 = np.array([1, 0, 3, 1.1, 2.2, 0.1, -0.3])
+# V_0 = np.eye(7)
+# e_0 = 3 * np.ones(2)
 
 
-def generate_network_params(k=k, gamma_0=gamma_0, V_0=V_0, e_0=e_0):
+def generate_network_params(k, gamma_0, V_0, e_0):
     """
     Generates the parameters alpha, beta and nu of a network model.
 
@@ -33,15 +33,27 @@ def generate_network_params(k=k, gamma_0=gamma_0, V_0=V_0, e_0=e_0):
     return alpha, beta, nu
 
 
-def gamma_to_alpha_beta(K, gamma):
+def gamma_to_alpha_beta(k, gamma):
     """
     Converts the flattened gamma to alpha and beta
     """
-    alpha = np.zeros((K, K))
-    alpha[np.triu_indices(K)] = gamma[: K + 1]
-    alpha = alpha + alpha.T - np.diag(np.diag(alpha))
-    beta = gamma[K + 1 :]
-    return alpha, beta
+    if gamma.ndim == 1:
+        alpha = np.zeros((k, k))
+        alpha[np.triu_indices(k)] = gamma[: (k * (k + 1)) // 2]
+        alpha = alpha + alpha.T - np.diag(np.diag(alpha))
+        beta = gamma[(k * (k + 1)) // 2 :]
+        return alpha, beta
+    else:
+        # batch of particles
+        N = gamma.shape[0]
+        alpha = np.zeros((N, k, k))
+        alpha[:, np.triu_indices(k)[0], np.triu_indices(k)[1]] = gamma[
+            :, : (k * (k + 1)) // 2
+        ]
+        alpha = alpha + alpha.transpose((0, 2, 1))
+        alpha[:, range(k), range(k)] /= 2
+        beta = gamma[:, (k * (k + 1)) // 2 :]
+        return alpha, beta
 
 
 def alpha_beta_to_gamma(alpha, beta):

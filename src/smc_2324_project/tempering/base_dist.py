@@ -6,6 +6,22 @@ from particles.distributions import *
 ### Distributions ###
 
 
+class CategoricalFix(Categorical):
+    """Categorical distribution.
+    Fix int casting during logpdf computation.
+    """
+
+    def __init__(self, p=None):
+        super().__init__(p=p)
+
+    def logpdf(self, x):
+        lp = np.log(self.p)
+        d = lp.shape[-1]
+        choices = [lp[..., k] for k in range(d)]
+        x = np.array(x).astype(int)  # to be solved
+        return np.choose(x, choices)
+
+
 class Dirichlet(ProbDist):
     """Dirichlet distribution.
 
@@ -78,7 +94,7 @@ def define_prior(theta_prior: StructDist, n: int):
     prior_dict = OrderedDict()
     prior_dict["theta"] = theta_prior
     prior_dict["Z"] = Cond(
-        lambda x: IndepProd(*[Categorical(x["theta"]["nu"][0]) for _ in range(n)]),
+        lambda x: IndepProd(*[CategoricalFix(x["theta"]["nu"][0]) for _ in range(n)]),
         dim=n,
     )
     prior = StructDist(prior_dict)
