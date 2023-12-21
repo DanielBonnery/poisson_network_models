@@ -105,8 +105,11 @@ def define_VEM_base_dist(tau_tilde, e_tilde, mean_gamma, cov_gamma):
     """Define the base distribution for the VEM algorithm results."""
     base_dist_dict = {}
     base_dist_dict["theta"] = StructDist(
-        {"gamma": MvNormal(loc=mean_gamma, cov=cov_gamma), "nu": Dirichlet(e_tilde)}
-    )
+        {
+            "gamma": MvNormal(loc=mean_gamma, cov=cov_gamma),
+            "nu": Dirichlet(e_tilde),
+        }
+    )  # scale use as a relaxation parameter (prior too tight)
     n = len(tau_tilde)
     base_dist_dict["Z"] = IndepProd(*[CategoricalFix(tau_tilde[i]) for i in range(n)])
     base_dist = StructDist(base_dist_dict)
