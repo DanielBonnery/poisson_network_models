@@ -1,5 +1,9 @@
-from src.smc_2324_project.simulate.generate_dataset import generate_network_params, \
-    generate_covariates, sample_from_network, alpha_beta_to_gamma
+from src.smc_2324_project.simulate.generate_dataset import (
+    generate_network_params,
+    generate_covariates,
+    sample_from_network,
+    alpha_beta_to_gamma,
+)
 from src.smc_2324_project.variational.posterior_gamma import hessian, sample_from_gamma
 from src.smc_2324_project.variational.posterior_nu import sample_from_nu
 from src.smc_2324_project.variational.SBM_regression import VEM
@@ -22,7 +26,7 @@ def main():
     # sample from network
     adj = sample_from_network(theta, covariates)
     gamma = alpha_beta_to_gamma(theta[0], theta[1])
-    print(f'true_gamma, nu: {gamma, theta[2]}')
+    print(f"true_gamma, nu: {gamma, theta[2]}")
     # random init. Does it make sense ?
     # init tau
     tau = np.random.uniform(0, 1, size=(n, K))
@@ -36,13 +40,15 @@ def main():
     fake_alpha += fake_alpha.T - np.diag(np.diag(fake_alpha))
     fake_beta = np.random.normal(size=theta[1].shape)
     fake_gamma = alpha_beta_to_gamma(fake_alpha, fake_beta)
-    print(f'fake_gamma, nu: {fake_gamma, nu}')
-    inferred_gamma, inferred_nu, inferred_tau = VEM(adj, covariates, fake_gamma, nu, tau)
+    print(f"fake_gamma, nu: {fake_gamma, nu}")
+    inferred_gamma, inferred_nu, inferred_tau = VEM(
+        adj, covariates, fake_gamma, nu, tau
+    )
     hess = hessian(adj, covariates, tau, fake_gamma)
     samples_gamma = sample_from_gamma(hess, gamma_0, V_0, inferred_gamma, 10)
     samples_nu = sample_from_nu(e_0, inferred_tau, 10)
     print(samples_gamma, samples_nu)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

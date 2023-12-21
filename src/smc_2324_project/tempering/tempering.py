@@ -5,8 +5,7 @@ from scipy.stats import poisson, multivariate_normal
 from particles import resampling as rs
 from particles.smc_samplers import AdaptiveTempering
 
-from generate_dataset import *
-
+from src.smc_2324_project.simulate.generate_dataset import *
 
 ### Distributions (target and so on) ###
 
