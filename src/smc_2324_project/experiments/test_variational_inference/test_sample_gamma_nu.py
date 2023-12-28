@@ -11,7 +11,7 @@ import numpy as np
 
 
 def main():
-    np.random.seed(10)
+    np.random.seed(0)
     # hyperparameters
     n, K, p = 40, 3, 4
     gamma_0 = np.array([1, 0, 3, 1.1, 1.5, 0.2, -0.1, 2.2, 0.1, -0.3])
@@ -33,14 +33,18 @@ def main():
     tau /= np.sum(tau, axis=1).reshape((-1, 1))
     # init nu
     nu = np.mean(tau, axis=0)
-    # VEM
-    _fake_alpha = np.random.normal(size=int(K * (K + 1) / 2))
+    # VEM random init, no prior
+    """_fake_alpha = np.random.normal(size=int(K * (K + 1) / 2))
     fake_alpha = np.zeros((K, K))
     fake_alpha[np.triu_indices(K)] = _fake_alpha
     fake_alpha += fake_alpha.T - np.diag(np.diag(fake_alpha))
     fake_beta = np.random.normal(size=theta[1].shape)
     fake_gamma = alpha_beta_to_gamma(fake_alpha, fake_beta)
     print(f"fake_gamma, nu: {fake_gamma, nu}")
+    """
+    # instead of random init, use the prior distrib on gamma
+    fake_alpha, fake_beta, fake_nu = generate_network_params(K, gamma_0, V_0, e_0)
+    fake_gamma = alpha_beta_to_gamma(fake_alpha, fake_beta)
     inferred_gamma, inferred_nu, inferred_tau = VEM(
         adj, covariates, fake_gamma, nu, tau
     )
