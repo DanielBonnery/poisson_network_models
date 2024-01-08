@@ -4,9 +4,6 @@ from matplotlib import pyplot as plt
 import os
 import sys
 
-os.chdir("../../../..")
-print(os.getcwd())
-
 from src.smc_2324_project.simulate.generate_dataset import *
 from src.smc_2324_project.tempering.base_dist import *
 from src.smc_2324_project.tempering.tempering import *
