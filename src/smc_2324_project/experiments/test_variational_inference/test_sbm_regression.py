@@ -36,8 +36,9 @@ def main():
     print(f'true_gamma, nu: {gamma, theta[2]}')
     print(f'nll: {loss(adj, covariates, tau, gamma)}')
     print(f'fake_gamma, nu: {fake_gamma, nu}')
-
+    print(f'fake_gamma nll: {loss(adj, covariates, tau, fake_gamma)}')
     inferred_gamma, inferred_nu, inferred_tau = VEM(adj, covariates, fake_gamma, nu, tau)
+    print(f'inferred_gamma nll: {loss(adj, covariates, tau, inferred_gamma)}')
     return inferred_gamma, inferred_nu, inferred_tau
 
 
