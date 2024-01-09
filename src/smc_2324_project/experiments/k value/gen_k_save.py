@@ -3,8 +3,11 @@ from matplotlib import pyplot as plt
 import json
 
 import os
+import sys
+
 os.chdir('./../../../..')
 print(os.getcwd())
+sys.path.append(os.getcwd())
 
 from src.smc_2324_project.simulate.generate_dataset import *
 from src.smc_2324_project.tempering.base_dist import *
@@ -12,6 +15,10 @@ from src.smc_2324_project.tempering.tempering import *
 
 import particles
 from particles.smc_samplers import TemperingBridge
+
+class ToyBridge(TemperingBridge):
+    def logtarget(self, theta):
+        return compute_llh_target(theta)
 
 # retrieve args
 args = sys.argv[1:]
@@ -75,7 +82,7 @@ for i in range(1):
     list_lpy.append(lpy)
 
 # save
-filename = "posterior_k_{}_{}.json".format(k, num_fichier)
+filename = "src/smc_2324_project/experiments/k\ value\posterior_k_{}_{}.json".format(k, num_fichier)
 with open(filename, "w") as json_file:
     json.dump(list_lpy, json_file, indent=2)  # Utilisez indent pour une mise en forme lisible
 
