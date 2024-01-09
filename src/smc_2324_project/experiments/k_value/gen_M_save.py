@@ -22,7 +22,7 @@ class ToyBridge(TemperingBridge):
 
 # retrieve args
 args = sys.argv[1:]
-k_simu = int(args[0])
+M = int(args[0])
 num_fichier = int(args[1])
 num_particles = 200
 
@@ -47,7 +47,6 @@ random.seed()
 
 
 list_lpy=[]
-k=k_simu
 for i in range(1):
     #hyperparameters
     gamma_0 = np.random.normal(0, 3, (k * (k + 1)) // 2 + 4)
@@ -69,7 +68,7 @@ for i in range(1):
     fk_tpr = FlexibeAdaptiveTempering(model=toy_bridge, len_chain=100, 
                                       move=move, wastefree=False,
                                       tempering_step_size = 0.5) # tempering_step_size = 1-tau_1
-    alg = particles.SMC(fk=fk_tpr, N=200, ESSrmin=0.8,
+    alg = particles.SMC(fk=fk_tpr, N=M, ESSrmin=0.8,
                         store_history=True, verbose=True)
     alg.run()
     
@@ -82,7 +81,7 @@ for i in range(1):
     list_lpy.append(lpy)
 
 # save
-filename = "src/smc_2324_project/experiments/k_value/posterior_k_{}_{}.json".format(k, num_fichier)
+filename = "src/smc_2324_project/experiments/k_value/posterior_M_{}_{}.json".format(k, num_fichier)
 with open(filename, "w") as json_file:
     json.dump(list_lpy, json_file, indent=2)
 
