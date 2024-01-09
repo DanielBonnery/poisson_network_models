@@ -6,7 +6,7 @@ import os
 import sys
 
 os.chdir('./../../../..')
-print(os.getcwd())
+#print(os.getcwd())
 sys.path.append(os.getcwd())
 
 from src.smc_2324_project.simulate.generate_dataset import *
@@ -48,7 +48,7 @@ random.seed()
 
 list_lpy=[]
 k=k_simu
-for i in range(1):
+for i in range(5):
     #hyperparameters
     gamma_0 = np.random.normal(0, 3, (k * (k + 1)) // 2 + 4)
     V_0 = np.eye(len(gamma_0))
@@ -82,7 +82,7 @@ for i in range(1):
     list_lpy.append(lpy)
 
 # save
-filename = "src/smc_2324_project/experiments/k_value\posterior_k_{}_{}.json".format(k, num_fichier)
+filename = "src/smc_2324_project/experiments/k_value/posterior_k_{}_{}.json".format(k, num_fichier)
 with open(filename, "w") as json_file:
-    json.dump(list_lpy, json_file, indent=2)  # Utilisez indent pour une mise en forme lisible
+    json.dump(list_lpy, json_file, indent=2)
 
