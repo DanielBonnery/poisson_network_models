@@ -15,6 +15,9 @@ from src.smc_2324_project.tempering.tempering import *
 
 import particles
 from particles.smc_samplers import TemperingBridge
+with open('mon_fichier.txt', 'w') as fichier:
+    # Écriture du texte dans le fichier
+    fichier.write('Bonjour')
 
 class ToyBridge(TemperingBridge):
     def logtarget(self, theta):
@@ -48,7 +51,7 @@ random.seed()
 
 list_lpy=[]
 k=k_simu
-for i in range(1):
+for i in range(5):
     #hyperparameters
     gamma_0 = np.random.normal(0, 1, (k * (k + 1)) // 2 + 4)
     V_0 = 3*np.eye(len(gamma_0))

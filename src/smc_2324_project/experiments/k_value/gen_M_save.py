@@ -51,7 +51,7 @@ random.seed()
 
 
 list_lpy=[]
-for i in range(1):
+for i in range(5):
     #hyperparameters
     gamma_0 = np.random.normal(0, 1, (k * (k + 1)) // 2 + 4)
     V_0 = 3*np.eye(len(gamma_0))
