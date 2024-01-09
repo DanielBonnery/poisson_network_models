@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import json
 
 import os
+os.chdir('./../../../..')
 print(os.getcwd())
 
 from src.smc_2324_project.simulate.generate_dataset import *
