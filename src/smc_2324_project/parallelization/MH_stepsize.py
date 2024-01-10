@@ -15,7 +15,7 @@ from src.smc_2324_project.variational.SBM_regression import VEM
 # retrieve args
 args = sys.argv[1:]
 MH_stepsize_factor = float(args[0])
-num_particles = 1000
+num_particles = 200
 tau_1_exp_stepsize, tau_2_resampling = 0.5, 0.8
 
 # parameters
@@ -49,7 +49,7 @@ cov_gamma = np.linalg.inv((invV0 - hess))
 mean_gamma = cov_gamma @ (invV0 @ gamma_0 - hess @ inferred_gamma)
 
 # relaxation
-relaxation = 0.1
+relaxation = 0.4
 cov_gamma = (1 - relaxation) * cov_gamma + relaxation * np.eye(len(gamma_0))
 e_tilde = (1 - relaxation) * e_tilde + relaxation * e_0
 inferred_nu = (1 - relaxation) * inferred_nu + relaxation * nu
