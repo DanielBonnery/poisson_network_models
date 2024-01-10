@@ -15,6 +15,9 @@ from src.smc_2324_project.tempering.tempering import *
 
 import particles
 from particles.smc_samplers import TemperingBridge
+with open('mon_fichier.txt', 'w') as fichier:
+    # Écriture du texte dans le fichier
+    fichier.write('Bonjour')
 
 class ToyBridge(TemperingBridge):
     def logtarget(self, theta):
@@ -48,10 +51,10 @@ random.seed()
 
 list_lpy=[]
 k=k_simu
-for i in range(1):
+for i in range(5):
     #hyperparameters
-    gamma_0 = np.random.normal(0, 3, (k * (k + 1)) // 2 + 4)
-    V_0 = np.eye(len(gamma_0))
+    gamma_0 = np.random.normal(0, 1, (k * (k + 1)) // 2 + 4)
+    V_0 = 3*np.eye(len(gamma_0))
     e_0 = 3 * np.ones(k)
 
     # prior
@@ -69,7 +72,7 @@ for i in range(1):
     fk_tpr = FlexibeAdaptiveTempering(model=toy_bridge, len_chain=100, 
                                       move=move, wastefree=False,
                                       tempering_step_size = 0.5) # tempering_step_size = 1-tau_1
-    alg = particles.SMC(fk=fk_tpr, N=200, ESSrmin=0.8,
+    alg = particles.SMC(fk=fk_tpr, N=2000, ESSrmin=0.8,
                         store_history=True, verbose=True)
     alg.run()
     
