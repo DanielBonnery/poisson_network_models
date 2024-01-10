@@ -99,6 +99,6 @@ alg.run()
 import pickle
 
 _ = len(os.listdir("data/hyperparams_tuning"))
-filename = "data/MH_stepsize/MH_stepsize_{}_{}.pkl".format(MH_stepsize, _)
+filename = "data/MH_stepsize/MH_stepsize_{}_{}.pkl".format(MH_stepsize_factor, _)
 with open(filename, "wb") as f:
     pickle.dump(alg.X, f)
