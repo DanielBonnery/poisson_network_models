@@ -16,7 +16,7 @@ from src.smc_2324_project.variational.SBM_regression import VEM
 args = sys.argv[1:]
 MH_stepsize_factor = float(args[0])
 num_particles = 1000
-tau_1_exp_stepsize, tau_2_resampling = 0.9, 0.8
+tau_1_exp_stepsize, tau_2_resampling = 0.5, 0.8
 
 # parameters
 n, k, p = 40, 2, 4
