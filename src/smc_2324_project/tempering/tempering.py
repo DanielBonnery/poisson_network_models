@@ -195,6 +195,7 @@ class CustomGibbs:
         self.k = k
         self.e_0 = e_0
         self.e_tilde = e_tilde
+        self.MH_stepsize_factor = MH_stepsize_factor
 
     def calibrate(self, W, x):
         self.rho = x.shared["exponents"][-1]
@@ -205,7 +206,9 @@ class CustomGibbs:
         sample_nu(x, self.e_0, self.e_tilde, self.rho, self.k)
         len_gamma = x.theta["theta"]["gamma"].shape[1]
         mean_acc_rate_gamma = sample_gamma(
-            x, (MH_stepsize_factor * 2.38) ** 2 / len_gamma * self.gamma_var, target
+            x,
+            (self.MH_stepsize_factor * 2.38) ** 2 / len_gamma * self.gamma_var,
+            target,
         )
         sample_Z(x, target, self.k)
         update_acc_rate(x, mean_acc_rate_gamma)
