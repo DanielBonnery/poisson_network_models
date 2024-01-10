@@ -50,7 +50,7 @@ if strat == 2:
     mean_gamma = cov_gamma @ (invV0 @ gamma_0 - hess @ inferred_gamma)
 
     # relaxation
-    relaxation = 0.4
+    relaxation = 0.1
     cov_gamma = (1 - relaxation) * cov_gamma + relaxation * np.eye(len(gamma_0))
     e_tilde = (1 - relaxation) * e_tilde + relaxation * e_0
     inferred_nu = (1 - relaxation) * inferred_nu + relaxation * nu
