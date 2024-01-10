@@ -72,7 +72,7 @@ for i in range(5):
     fk_tpr = FlexibeAdaptiveTempering(model=toy_bridge, len_chain=100, 
                                       move=move, wastefree=False,
                                       tempering_step_size = 0.5) # tempering_step_size = 1-tau_1
-    alg = particles.SMC(fk=fk_tpr, N=200, ESSrmin=0.8,
+    alg = particles.SMC(fk=fk_tpr, N=2000, ESSrmin=0.8,
                         store_history=True, verbose=True)
     alg.run()
     
