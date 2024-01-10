@@ -104,4 +104,4 @@ import pickle
 _ = len(os.listdir("data/compare_strat"))
 filename = "data/compare_strat/strat_{}_{}.pkl".format(strat, _)
 with open(filename, "wb") as f:
-    pickle.dump(alg.X, f)
+    pickle.dump(alg.hist, f)

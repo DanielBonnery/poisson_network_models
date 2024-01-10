@@ -101,4 +101,4 @@ filename = "data/hyperparams_tuning/tempering_{}_{}_{}.pkl".format(
     tau_1_exp_stepsize, tau_2_resampling, _
 )
 with open(filename, "wb") as f:
-    pickle.dump(alg.X, f)
+    pickle.dump(alg.hist, f)
