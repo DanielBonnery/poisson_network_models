@@ -85,7 +85,7 @@ for i in range(5):
     list_lpy.append(lpy)
 
 # save
-filename = "src/smc_2324_project/experiments/k_value/posterior_M_{}_{}.json".format(M, num_fichier)
+filename = "src\smc_2324_project\experimental_results\posterior_for_diff_M\posterior_M_{}_{}.json".format(M, num_fichier)
 with open(filename, "w") as json_file:
     json.dump(list_lpy, json_file, indent=2)
 
