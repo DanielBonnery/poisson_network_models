@@ -5,9 +5,12 @@
 This project reimplements the paper https://hal.inrae.fr/hal-03202058 as a final project for the course "Hidden Markov models and sequential Monte-Carlo" taught by Nicolas Chopin.
 The reimplementation uses `Python` and the package `particles`.
 
-## Datasets
+## Reproduction of the plots
 
-[http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/text/mc_mullen.txt](http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/text/mc_mullen.txt)
-[http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/excel/mcmullen_1993.xls]('http://www.ecologia.ib.usp.br/iwdb/data/plant_pollinator/excel/mcmullen_1993.xls)
-[https://projecteuclid.org/journals/supplementalcontent/10.1214/10-AOAS361/supzip_1.zip]('https://projecteuclid.org/journals/supplementalcontent/10.1214/10-AOAS361/supzip_1.zip)
+```{sh}
+git clone https://github.com/DanielBonnery/poisson_network_models" 
+jupyter nbconvert --to notebook --execute "src/smc_2324_project/experiments/results_summary/plot_results.ipynb"
+```
+
+## Reproduction of all the code
 
