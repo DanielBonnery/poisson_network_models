@@ -50,13 +50,12 @@ mean_gamma = cov_gamma @ (invV0 @ gamma_0 - hess @ inferred_gamma)
 
 # relaxation
 relaxation = 0.4
-inferred_nu[inferred_nu < 1e-3] = 1e-3
-inferred_nu /= np.sum(inferred_nu)
-cov_gamma = (1 - relaxation) * cov_gamma + relaxation * np.eye(
-    len(gamma_0)
-)  # SDP constraint
+cov_gamma = (1 - relaxation) * cov_gamma + relaxation * np.eye(len(gamma_0))
+e_tilde = (1 - relaxation) * e_tilde + relaxation * e_0
+inferred_nu = (1 - relaxation) * inferred_nu + relaxation * nu
+
+# base_dist
 base_dist = define_VEM_base_dist(inferred_tau, inferred_nu, mean_gamma, cov_gamma)
-base_dist = Mixture([1 - relaxation, relaxation], base_dist, prior)
 
 ### SMC ###
 
