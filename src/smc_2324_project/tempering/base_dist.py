@@ -11,6 +11,8 @@ class CategoricalFix(Categorical):
     Fix int casting during logpdf computation.
     """
 
+    dtype = int
+
     def __init__(self, p=None):
         super().__init__(p=p)
 
@@ -40,7 +42,7 @@ class Dirichlet(ProbDist):
         self.alpha = np.array(alpha)
         self.dim = len(alpha)
 
-    def rvs(self, size=None):
+    def rvs(self, size=1):
         return dirichlet.rvs(self.alpha, size=size)
 
     def logpdf(self, x):
@@ -103,7 +105,7 @@ def define_prior(theta_prior: StructDist, n: int):
 
 def define_VEM_base_dist(tau_tilde, e_tilde, mean_gamma, cov_gamma):
     """Define the base distribution for the VEM algorithm results."""
-    base_dist_dict = {}
+    base_dist_dict = OrderedDict()
     base_dist_dict["theta"] = StructDist(
         {
             "gamma": MvNormal(loc=mean_gamma, cov=cov_gamma),
@@ -111,6 +113,8 @@ def define_VEM_base_dist(tau_tilde, e_tilde, mean_gamma, cov_gamma):
         }
     )  # scale use as a relaxation parameter (prior too tight)
     n = len(tau_tilde)
-    base_dist_dict["Z"] = IndepProd(*[CategoricalFix(tau_tilde[i]) for i in range(n)])
+    base_dist_dict["Z"] = Cond(
+        lambda x: IndepProd(*[CategoricalFix(tau_tilde[i]) for i in range(n)]), dim=n
+    )  # CategoricalFix
     base_dist = StructDist(base_dist_dict)
     return base_dist
